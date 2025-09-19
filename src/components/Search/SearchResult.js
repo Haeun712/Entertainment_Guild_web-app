@@ -8,7 +8,7 @@ import Grid from '@mui/material/Grid';
 import ItemImg from '../../assets/itemImg.svg'
 import React from "react";
 import Pagination from "@mui/material/Pagination";
-import { Link, useSearchParams } from 'react-router-dom';
+import { Link, useSearchParams, useLocation } from 'react-router-dom';
 import axios from "axios";
 import { useState } from "react";
 import { useEffect } from "react";
@@ -16,8 +16,10 @@ import { useEffect } from "react";
 
 
 const SearchResult = () => {
+    const location = useLocation();
     const [searchParams] = useSearchParams();
-    const searchString = searchParams.get('query');
+    const searchString = searchParams.get('query') || "";
+    const [filteredList, setFilteredList] = useState([]);
 
     const [items, setItems] = useState([]);
     const client = axios.create({
@@ -34,23 +36,29 @@ const SearchResult = () => {
                 console.log(response.data.list);
                 setItems(response.data.list);
             });
+
+            setFilteredList(items);
     }, [])
-    
+
     const [page, setPage] = React.useState(1);
     const cardPerPage = 16
-    
+
     const handleChangePage = (event, newPage) => {
         setPage(newPage);
     };
-    
+
     // Create a new array, filteredList, using the array filter function to filter the dummy data based on input.
-    const filteredList = items.filter((item) => {
-        if (!searchString) {
-            return true;
-        } else {
-            return item.Product.Name.toLowerCase().includes(searchString);
-        }
-    });
+    useEffect(() => {
+        const list = items.filter((item) => {
+            if (searchString === "") {
+                return true;
+            } else {
+                return item.Product.Name.toLowerCase().includes(searchString);
+            }
+        });
+
+        setFilteredList(list);
+    }, [items, searchString]);
 
     const DataForEachPage = filteredList.slice(
         (page - 1) * cardPerPage,
