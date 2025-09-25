@@ -9,7 +9,7 @@ const Promotion = () => {
         backgroundSize: 'cover', 
         backgroundPosition: 'center', 
         backgourndRepeat: 'no-repeat', 
-        height: '600px',
+        height: '650px',
         justifyContent: 'center',
         marginTop: '-32px'}}>
 

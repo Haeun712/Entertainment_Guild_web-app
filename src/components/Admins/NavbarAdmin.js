@@ -39,9 +39,9 @@ function NavbarAdmin() {
             {/*Entertainment Guild Logo  (link to homepage)*/}
             <Box
               component={Link}
-              to="/"
+              to="/admin"
               sx={{ display: 'flex', mr: 2, cursor: 'pointer' }}>
-              <img src={Entertainment_Guild_Logo} alt="Entertainment Guild Logo" style={{ height: 56 }} />
+              <img src={Entertainment_Guild_Logo} alt="Entertainment Guild Logo" style={{ height: 72 }} />
             </Box>
 
             <Box sx={{ flexGrow: 1, display: 'flex' }}>
@@ -76,12 +76,13 @@ function NavbarAdmin() {
                 >
 
                   <MenuItem
+                    disableRipple
                     sx={{
                       "&:hover": { backgroundColor: "transparent" } // hover
                     }}>
                     <Typography
                       component={Link}
-                      to={'/admin/patrons'}
+                      to={'/patrons'}
                       sx={{
                         color: "black",
                         textDecoration: "none",
@@ -97,6 +98,7 @@ function NavbarAdmin() {
                     </Typography>
                   </MenuItem>
                   <MenuItem
+                    disableRipple
                     sx={{
                       "&:hover": { backgroundColor: "transparent" } // hover
                     }}>

@@ -8,7 +8,7 @@ const Hero = () => {
         backgroundSize: 'cover', 
         backgroundPosition: 'center', 
         backgourndRepeat: 'no-repeat', 
-        height: '600px',
+        height: '650px',
         justifyContent: 'center',}}>
 
         {/* Hero text */}

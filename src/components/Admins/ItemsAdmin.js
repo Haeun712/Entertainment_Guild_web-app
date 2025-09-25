@@ -1,14 +1,13 @@
 import { useState, useEffect } from "react";
 import axios from "axios";
 import {
-    TextField, Button, Box, Table, TableContainer, TableRow, TableCell,
+    Button, Box, Table, TableContainer, TableRow, TableCell,
     TableHead, TableBody, Paper, Stack,
 } from "@mui/material";
 import React from "react";
 import TablePagination from '@mui/material/TablePagination';
-
-
-
+import AddCircleIcon from '@mui/icons-material/AddCircle';
+import {Link} from 'react-router-dom';
 
 
 const Items = () => {
@@ -51,14 +50,28 @@ const Items = () => {
         }}>
             <Stack direction="row" spacing={2}>
                 <Box margin={10} width={'80vw'} maxWidth={800}>
-                    <h2>ITEMS</h2>
+                    <h1>ITEMS</h1>
+                    <Button variant="contained"
+                        href="/createItem"
+                        sx={{
+                            margin: '10px 0',
+                            backgroundColor: '#282120',
+                            color: 'white',
+                            fontWeight: 'bold',
+                            fontSize: '12px',
+                            padding: '8px'
+                        }}>
+                        <AddCircleIcon sx={{width: '18px', marginRight: '5px'}}/>
+                        CREATE NEW ITEM
+                    </Button>
                     <TableContainer component={Paper} sx={{
-                        border: '1px solid #282120 ',
                         borderRadius: '0',
+                        border: '1px solid #282120'
                     }}>
                         <Table sx={{
-                            'th': { fontWeight: 'bold', padding: '12px', backgroundColor: '#2821202D'},
-                            'td': { padding: '10px' }
+                            borderCollapse: 'collapse',
+                            'th': { fontWeight: 'bold', padding: '12px', backgroundColor: '#2821202D', border: '1px solid #2821206D'},
+                            'td': { padding: '10px', border: '1px solid #2821203D' }
                         }} aria-label="items-table">
                             <TableHead>
                                 <TableRow>
@@ -68,6 +81,7 @@ const Items = () => {
                                     <TableCell>Source Name</TableCell>
                                     <TableCell>Price</TableCell>
                                     <TableCell>Stock Qty</TableCell>
+                                    <TableCell></TableCell>
                                 </TableRow>
                             </TableHead>
                             <TableBody>
@@ -82,6 +96,9 @@ const Items = () => {
                                         <TableCell>{i.Source.SourceName}</TableCell>
                                         <TableCell>{i.Price}</TableCell>
                                         <TableCell>{i.Quantity}</TableCell>
+                                        <TableCell>
+                                            <Link to={"/" + i.ItemId}>View</Link>
+                                        </TableCell>
                                     </TableRow>
                                 ))}
                             </TableBody>

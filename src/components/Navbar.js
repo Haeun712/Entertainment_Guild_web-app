@@ -23,7 +23,7 @@ function Navbar() {
               component={Link}
               to="/"
               sx={{ display: 'flex', mr: 2, cursor: 'pointer' }}>
-              <img src={Entertainment_Guild_Logo} alt="Entertainment Guild Logo" style={{ height: 56 }} />
+              <img src={Entertainment_Guild_Logo} alt="Entertainment Guild Logo" style={{ height: 72 }} />
             </Box>
 
             <Box sx={{ flexGrow: 1, display:'flex' }}>
@@ -65,7 +65,7 @@ function Navbar() {
             </Box>
 
 
-            {/*Shopping Cart, link not working (in progress)*/}
+            {/*Shopping Cart, linking to the cart page*/}
             <Box
               component={Link}
               to="/cart"
@@ -73,7 +73,7 @@ function Navbar() {
               <img src={CartIcon} alt="Cart icon" style={{ height: 27, widht: 27 }} />
             </Box>
 
-            {/*Login, link not working (in progress)*/}
+            {/*Login, linking to the login page*/}
             <Box
               component={Link}
               to="/login"

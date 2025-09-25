@@ -33,7 +33,7 @@ const HomepageCards = () => {
                 </CardContent>
                 <CardActions sx={{ textAlign: 'center', justifyContent: 'center', padding: '10px 20px 50px 20px' }}>
                     <Button variant="contained"
-                        href="/games"
+                        href="/products/games"
                         sx={{
                             backgroundColor: '#FAD25B',
                             color: '#282120',
@@ -59,7 +59,7 @@ const HomepageCards = () => {
                 </CardContent>
                 <CardActions sx={{ textAlign: 'center', justifyContent: 'center', padding: '10px 20px 50px 20px' }}>
                     <Button variant="contained"
-                        href="/movies"
+                        href="/products/movies"
                         sx={{
                             backgroundColor: '#FAD25B',
                             color: '#282120',
@@ -85,7 +85,7 @@ const HomepageCards = () => {
                 </CardContent>
                 <CardActions sx={{ textAlign: 'center', justifyContent: 'center', padding: '10px 20px 50px 20px' }}>
                     <Button variant="contained"
-                        href="/books"
+                        href="/products/books"
                         sx={{
                             backgroundColor: '#FAD25B',
                             color: '#282120',

@@ -87,12 +87,13 @@ const ItemDetail = () => {
             <p style={{marginBottom: "5px"}}>Published: {product.Published ? new Date(product.Published).toISOString().split('T')[0] : "-"}</p>
             <p style={{marginTop: "0px"}}>Source: {item.Source?.SourceName || "-"}</p>
             <p style={{marginTop: "40px"}}>{product.Description}</p>
+            {/* not working */}
+            {/* Add Item into Order (Cart) */}
             <Button variant="contained"
-                        href="/"
                         sx={{
                             marginTop: '20px',
-                            backgroundColor: '#FAD25B',
-                            color: '#282120',
+                            backgroundColor: '#282120',
+                            color: 'white',
                             fontWeight: 'bold',
                             fontSize: '12px',
                             width: '100%',

@@ -9,7 +9,6 @@ const Homepage = () => {
         <Hero />
         <Promotion />
         <HomepageCards />
-      <Footer />
       </div>
     );
 }   
