@@ -1,3 +1,5 @@
+// src/components/Products/Movies.js
+// Component to display a list of movies with pagination from the Stocktake database
 
 import axios from "axios";
 import { useState, useEffect } from "react";
@@ -13,8 +15,7 @@ import Pagination from "@mui/material/Pagination";
 import Grid from '@mui/material/Grid';
 import ItemImg from '../../assets/itemImg.svg'
 import {
-    BrowserRouter as Router,
-    Routes, Route, Link
+    useNavigate, useSearchParams, Link
 } from 'react-router-dom';
 
 
@@ -28,20 +29,45 @@ const Movies = () => {
         }
     });
 
+    // Initialize pagination state from the URL query parameter (?page=)
+    const [searchParams, setSearchParams] = useSearchParams();
+    const initialPage = parseInt(searchParams.get("page") || "1", 10);
+    const [page, setPage] = React.useState(initialPage);
+    const cardPerPage = 16
+    const navigate = useNavigate();
+
     useEffect(() => {
-        client.get('/StockTake?where=[(ProductId,btw,200,300)]&limit=1000')
+        client.get('/StockTake?limit=1000')
             .then((response) => {
 
-                const movies = response.data.list;
-                console.log(movies);
-                setData(movies);
+                const items = response.data.list;
+
+                client.get('/Genre?where=(GenreID,eq,2)&nested[Product List][limit]=200')
+                    .then((response) => {
+                        const productList = response.data.list[0]['Product List'];
+                        const productIds = productList.map(p => p.ID);
+
+                        const movies = items.filter(item => productIds.includes(item.ProductId));
+
+                        console.log(movies);
+                        setData(movies);
+                    })
             });
     }, []);
-    const [page, setPage] = React.useState(1);
-    const cardPerPage = 16
+
+    useEffect(() => {
+    
+            if (!searchParams.get("page")) {
+                //Reset page number when entering this page without page URL parameter
+                navigate("/products/movies?page=1");
+                window.location.reload();
+            }
+    
+        }, [searchParams])
 
     const handleChangePage = (event, newPage) => {
         setPage(newPage);
+        setSearchParams({ page: newPage });
     };
 
     const DataForEachPage = data.slice(
@@ -105,12 +131,9 @@ const Movies = () => {
                     to={"/products/movies"} // go to movies page
                     sx={{
                         color: "black",
-                        textDecoration: "none",
                         alignItems: "center",
                         cursor: 'pointer',
-                        "&:hover": {
-                            textDecoration: "underline",
-                        }, // hover
+                        fontWeight: 'bold'
                     }}
                 >
                     MOVIES

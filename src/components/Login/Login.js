@@ -1,3 +1,7 @@
+// src/components/Login/Login.js
+// Component to handle user login functionality for patrons and staff (employees and admins)
+// It authenticates users and manages login state using the AuthProvider context
+
 import * as React from 'react';
 import {
     Button,
@@ -14,11 +18,36 @@ import {
 import AccountCircle from '@mui/icons-material/AccountCircle';
 import Visibility from '@mui/icons-material/Visibility';
 import VisibilityOff from '@mui/icons-material/VisibilityOff';
-import Logo from '../../assets/Entertainment_Guild_Logo.png'
+import Logo from '../../assets/Entertainment_Guild_Logo.png';
+import { useAuth } from '../../AuthProvider';
+import { useNavigate } from "react-router-dom";
+import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 
-const providers = [{ id: 'credentials', name: 'Email and Password' }];
 
 const Login = () => {
+    const [username, setUsername] = React.useState('');
+    const [password, setPassword] = React.useState('');
+    const navigate = useNavigate();
+
+    const auth = useAuth();
+
+    const handleLogin = (event) => {
+        event.preventDefault(); //Prevent reloading of the page
+        if (username && password) {
+            auth.login(username, password);
+            return;
+        }
+        alert("Please enter both username and password");
+    }
+
+    const handleUsernameChange = (event) => {
+        setUsername(event.target.value);
+    }
+
+    const handlePasswordChange = (event) => {
+        setPassword(event.target.value);
+    }   
+
     const [showPassword, setShowPassword] = React.useState(false);
 
     const handleClickShowPassword = () => setShowPassword((show) => !show);
@@ -42,20 +71,30 @@ const Login = () => {
                     border: '1px solid #282120',
                     borderRadius: '10px'
                 }}>
+                    <IconButton disableRipple onClick={() => navigate("/")}
+                    sx={{
+                        color: "Black",
+                        "&:hover": { backgroundColor: "transparent", textDecoration: "underline" },
+                        borderColor: "#282120",
+                        padding: '0',
+                        marginLeft: '-15px'
+                    }}><ArrowBackIcon /></IconButton>
                     <h2 style={{textAlign:'center', marginBottom: '0', display: 'flex', alignItems: 'center', gap: '10px', justifyContent: 'center'}}>Log in to <img src={Logo} alt={'logo'} style={{height: '56px', alignItems: 'center'}}/></h2>
-                    <p style={{textAlign:'center', marginTop: '8px', marginBottom: '30px', fontSize: '14px'}}>Welcome user, please log in to continue</p>
-                <form>
+                    <p style={{textAlign:'center', marginTop: '8px', marginBottom: '30px', fontSize: '16px'}}>Welcome! <br/>Please log in to continue</p>
+                <form method="post" onSubmit={handleLogin}>
                     <FormGroup sx={{my: 2}}>
                     <FormControl sx={{ my: 1 }} fullWidth variant="outlined">
                         <InputLabel size="small" htmlFor="input-with-icon-textfield">
-                            Email
+                            Email or Username
                         </InputLabel>
                         <OutlinedInput
-                            id="input-with-icon-textfield"
-                            type="email"
-                            name="email"
+                            id="username-field"
+                            type="text"
+                            name="username"
                             size="small"
-                            label="Email"
+                            label="Username"
+                            value={username}
+                            onChange={handleUsernameChange}
                             required
                             fullWidth
                         />
@@ -65,7 +104,7 @@ const Login = () => {
                             Password
                         </InputLabel>
                         <OutlinedInput
-                            id="outlined-adornment-password"
+                            id="password-field"
                             type={showPassword ? 'text' : 'password'}
                             name="password"
                             size="small"
@@ -87,17 +126,22 @@ const Login = () => {
                                 </InputAdornment>
                             }
                             label="Password"
+                            value={password}
+                            autoComplete='new-password'
+                            onChange={handlePasswordChange}
+                            required
+                            fullWidth
                         />
                     </FormControl>
                     </FormGroup>
-                    {/* Forgot password linking not working */}
-                    <Link href="/" variant="body2"
+                    {/* link to Forgot password page  */}
+                    <Link href="/forgotpassword" variant="body2"
                         sx={{
                             display: 'block',
                         }}>
                         Forgot password?
                     </Link>
-                    {/* Log in not working */}
+                    {/* Log in */}
                     <Button
                         type="submit"
                         variant="contained"

@@ -1,3 +1,5 @@
+// src/components/Products/Games.js
+// Component to display a list of games with pagination from the Stocktake database
 
 import axios from "axios";
 import { useState, useEffect } from "react";
@@ -13,8 +15,7 @@ import Pagination from "@mui/material/Pagination";
 import Grid from '@mui/material/Grid';
 import ItemImg from '../../assets/itemImg.svg'
 import {
-    BrowserRouter as Router,
-    Routes, Route, Link
+    Link, useSearchParams, useNavigate
 } from 'react-router-dom';
 
 
@@ -28,26 +29,52 @@ const Games = () => {
         }
     });
 
+    // Initialize pagination state from the URL query parameter (?page=)
+    const [searchParams, setSearchParams] = useSearchParams();
+    const initialPage = parseInt(searchParams.get("page") || "1", 10);
+    const [page, setPage] = React.useState(initialPage);
+    const cardPerPage = 16
+    const navigate = useNavigate();
+
     useEffect(() => {
-        client.get('/StockTake?where=(ProductId,gt,300)&limit=1000')
+        client.get('/StockTake?limit=1000')
             .then((response) => {
 
-                const games = response.data.list;
-                console.log(games);
-                setData(games);
+                const items = response.data.list;
+
+                client.get('/Genre?where=(GenreID,eq,3)&nested[Product List][limit]=200')
+                    .then((response) => {
+                        const productList = response.data.list[0]['Product List'];
+                        const productIds = productList.map(p => p.ID);
+
+                        const games = items.filter(item => productIds.includes(item.ProductId));
+
+                        console.log(games);
+                        setData(games);
+                    })
             });
     }, []);
-    const [page, setPage] = React.useState(1);
-    const cardPerPage = 16
+
+    useEffect(() => {
+    
+            if (!searchParams.get("page")) {
+                //Reset page number when entering this page without page URL parameter
+                navigate("/products/games?page=1");
+                window.location.reload();
+            }
+    
+        }, [searchParams])
 
     const handleChangePage = (event, newPage) => {
         setPage(newPage);
+        setSearchParams({ page: newPage });
     };
 
     const DataForEachPage = data.slice(
         (page - 1) * cardPerPage,
         page * cardPerPage
     )
+
 
 
 
@@ -121,12 +148,9 @@ const Games = () => {
                     to={"/products/games"} // go to games page
                     sx={{
                         color: "black",
-                        textDecoration: "none",
+                        fontWeight: 'bold',
                         alignItems: "center",
                         cursor: 'pointer',
-                        "&:hover": {
-                            textDecoration: "underline",
-                        }, // hover
                     }}
                 >
                     GAMES

@@ -1,3 +1,6 @@
+// src/components/Admins/NavbarAdmin.js
+// Component to display the navigation bar for admin users (Admin Homepage, Accounts - Customer & Staff - and Products pages and logout)
+
 import * as React from 'react';
 import AppBar from '@mui/material/AppBar';
 import Box from '@mui/material/Box';
@@ -11,8 +14,10 @@ import Entertainment_Guild_Logo from '../../assets/Entertainment_Guild_Logo.png'
 import UserIcon from '../../assets/User.svg';
 import {
   BrowserRouter as Router,
-  Routes, Route, Link
+  Routes, Route, Link, 
 } from 'react-router-dom';
+import { useAuth } from '../../AuthProvider';
+import logoutIcon from '../../assets/Log out.svg';
 
 
 const pages = ['ACCOUNTS', 'ITEMS'];
@@ -29,142 +34,133 @@ function NavbarAdmin() {
     setAnchorElNav(null);
   };
 
-
+  const auth = useAuth();
 
   return (
-      <AppBar position="static" sx={{ backgroundColor: "white", color: "black", height: "100px", boxShadow: "none", borderBottom: "1px solid #282120" }}>
-        <Container maxWidth="xl">
-          <Toolbar disableGutters sx={{ height: "100px", display: "flex", alignItems: "center" }}>
+    <AppBar position="static" sx={{ backgroundColor: "white", color: "black", height: "100px", boxShadow: "none", borderBottom: "1px solid #282120" }}>
+      <Container maxWidth="xl">
+        <Toolbar disableGutters sx={{ height: "100px", display: "flex", alignItems: "center" }}>
 
-            {/*Entertainment Guild Logo  (link to homepage)*/}
-            <Box
-              component={Link}
-              to="/admin"
-              sx={{ display: 'flex', mr: 2, cursor: 'pointer' }}>
-              <img src={Entertainment_Guild_Logo} alt="Entertainment Guild Logo" style={{ height: 72 }} />
-            </Box>
+          {/*Entertainment Guild Logo  (link to homepage)*/}
+          <Box
+            component={Link}
+            to="/admin"
+            sx={{ display: 'flex', mr: 2, cursor: 'pointer' }}>
+            <img src={Entertainment_Guild_Logo} alt="Entertainment Guild Logo" style={{ height: 72 }} />
+          </Box>
 
-            <Box sx={{ flexGrow: 1, display: 'flex' }}>
-              {/*Menu items for each account type (patron, user), linking to its corresponding page*/}
-              <Box sx={{ display: 'flex', marginRight: '20px' }}>
-                <Typography
-                  onClick={handleOpenNavMenu}
-                  color="inherit"
-                  sx={{
-                    "&:hover": { backgroundColor: "transparent", textDecoration: "underline" },
-                    cursor: 'pointer',
-                  }}
-                >
-                  ACCOUNTS
-                </Typography>
-
-                <Menu
-                  id="menu-appbar"
-                  anchorEl={anchorElNav}
-                  anchorOrigin={{
-                    vertical: 'bottom',
-                    horizontal: 'left',
-                  }}
-                  keepMounted
-                  transformOrigin={{
-                    vertical: 'top',
-                    horizontal: 'left',
-                  }}
-                  open={Boolean(anchorElNav)}
-                  onClose={handleCloseNavMenu}
-                  sx={{ display: 'block' }}
-                >
-
-                  <MenuItem
-                    disableRipple
-                    sx={{
-                      "&:hover": { backgroundColor: "transparent" } // hover
-                    }}>
-                    <Typography
-                      component={Link}
-                      to={'/patrons'}
-                      sx={{
-                        color: "black",
-                        textDecoration: "none",
-                        alignItems: "center",
-                        cursor: 'pointer',
-                        "&:hover": {
-                          textDecoration: "underline",
-                        }, // hover
-                      }}
-                      onClick={handleCloseNavMenu}
-                    >
-                      PATRONS
-                    </Typography>
-                  </MenuItem>
-                  <MenuItem
-                    disableRipple
-                    sx={{
-                      "&:hover": { backgroundColor: "transparent" } // hover
-                    }}>
-                    <Typography
-                      component={Link}
-                      to={'/users'}
-                      sx={{
-                        color: "black",
-                        textDecoration: "none",
-                        alignItems: "center",
-                        cursor: 'pointer',
-                        "&:hover": {
-                          textDecoration: "underline",
-                        }, // hover
-                      }}
-                      onClick={handleCloseNavMenu}
-                    >
-                      USERS
-                    </Typography>
-                  </MenuItem>
-
-                </Menu>
-              </Box>
-
+          <Box sx={{ flexGrow: 1, display: 'flex' }}>
+            {/*Menu items for each account type (patron, user), linking to its corresponding page*/}
+            <Box sx={{ display: 'flex', marginRight: '20px' }}>
               <Typography
-                component={Link}
-                to={`/items`}
+                onClick={handleOpenNavMenu}
+                color="inherit"
                 sx={{
-                  color: "black",
-                  textDecoration: "none",
-                  display: "flex",
-                  alignItems: "center",
-                  marginRight: 2,
+                  "&:hover": { backgroundColor: "transparent", textDecoration: "underline" },
                   cursor: 'pointer',
-                  "&:hover": { textDecoration: "underline" }, // hover
                 }}
-                onClick={handleCloseNavMenu}
               >
-                ITEMS
+                ACCOUNTS
               </Typography>
+
+              <Menu
+                id="menu-appbar"
+                anchorEl={anchorElNav}
+                anchorOrigin={{
+                  vertical: 'bottom',
+                  horizontal: 'left',
+                }}
+                keepMounted
+                transformOrigin={{
+                  vertical: 'top',
+                  horizontal: 'left',
+                }}
+                open={Boolean(anchorElNav)}
+                onClose={handleCloseNavMenu}
+                sx={{ display: 'block' }}
+              >
+
+                <MenuItem
+                  disableRipple
+                  sx={{
+                    "&.Mui-focusVisible": { backgroundColor: 'transparent' },
+                    "&:hover": { backgroundColor: "transparent" } // hover
+                  }}>
+                  <Typography
+                    component={Link}
+                    to={'/admin/patrons'}
+                    sx={{
+                      color: "black",
+                      textDecoration: "none",
+                      alignItems: "center",
+                      cursor: 'pointer',
+                      "&:hover": {
+                        textDecoration: "underline",
+                      }, // hover
+                    }}
+                    onClick={handleCloseNavMenu}
+                  >
+                    CUSTOMER
+                  </Typography>
+                </MenuItem>
+                <MenuItem
+                  disableRipple
+                  sx={{
+                    "&.Mui-focusVisible": { backgroundColor: 'transparent' },
+                    "&:hover": { backgroundColor: "transparent" } // hover
+                  }}>
+                  <Typography
+                    component={Link}
+                    to={'/admin/staffs'}
+                    sx={{
+                      color: "black",
+                      textDecoration: "none",
+                      alignItems: "center",
+                      cursor: 'pointer',
+                      "&:hover": {
+                        textDecoration: "underline",
+                      }, // hover
+                    }}
+                    onClick={handleCloseNavMenu}
+                  >
+                    STAFF
+                  </Typography>
+                </MenuItem>
+
+              </Menu>
             </Box>
 
-
-
-
-
-
-            {/*Login, link not working (in progress)*/}
-            <Box
+            <Typography
               component={Link}
-              to="/login"
-              sx={{ flexGrow: 0, display: 'flex', alignItems: 'center', cursor: 'pointer', textDecoration: 'none' }}>
-              <img src={UserIcon} alt="User icon" style={{ height: 27, widht: 27, marginRight: '5px' }} />
-              <Typography
-                sx={{
-                  color: "black",
-                  "&:hover": { textDecoration: "underline" }, // hover
-                  display: 'flex'
-                }}
-              >
-                LOG IN
-              </Typography>
-            </Box>
-          </Toolbar>
-        </Container>
-      </AppBar>
+              to={`/admin/products`}
+              sx={{
+                color: "black",
+                textDecoration: "none",
+                display: "flex",
+                alignItems: "center",
+                marginRight: 2,
+                cursor: 'pointer',
+                "&:hover": { textDecoration: "underline" }, // hover
+              }}
+            >
+              PRODUCTS
+            </Typography>
+          </Box>
+
+          <Box
+            sx={{ flexGrow: 0, display: 'flex', alignItems: 'center', textDecoration: 'none' }}>
+            <img src={UserIcon} alt="User icon" style={{ height: 27, widht: 27, marginRight: '5px' }} />
+            {auth.user ? auth.user.userData.username : null}
+          </Box>
+
+          <Box
+            onClick={() => auth.logout()}
+            sx={{ flexGrow: 0, display: 'flex', alignItems: 'center', ml: 1, cursor: 'pointer' }}>
+            <img src={logoutIcon} alt="logout icon" style={{ height: 27, widht: 27 }} />
+          </Box>
+        </Toolbar>
+      </Container>
+    </AppBar>
 
 
   );

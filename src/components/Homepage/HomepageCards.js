@@ -1,3 +1,6 @@
+// src/components/Homepage/HomepageCards.js
+// Component to display category cards (Games, Movies, Books) on the homepage
+
 import * as React from 'react';
 import Card from '@mui/material/Card';
 import CardActions from '@mui/material/CardActions';

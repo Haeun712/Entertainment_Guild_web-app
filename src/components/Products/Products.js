@@ -1,3 +1,7 @@
+// src/components/Products/Products.js
+// Component to display a list of products with pagination (all products) from the Stocktake database
+// reference: https://reactrouter.com/api/hooks/useNavigate
+
 import { Stack } from "@mui/system";
 import { Paper, Box, Typography } from "@mui/material";
 import Card from '@mui/material/Card';
@@ -12,8 +16,7 @@ import { useState } from "react";
 import axios from "axios";
 import { useEffect } from "react";
 import {
-    BrowserRouter as Router,
-    Routes, Route, Link
+    useSearchParams, useNavigate, Link
 } from 'react-router-dom';
 
 
@@ -27,6 +30,13 @@ const Products = () => {
         }
     });
 
+    // Initialize pagination state from the URL query parameter (?page=)
+    const [searchParams, setSearchParams] = useSearchParams();
+    const initialPage = parseInt(searchParams.get("page") || "1", 10);
+    const [page, setPage] = React.useState(initialPage);
+    const cardPerPage = 16
+    const navigate = useNavigate();
+
     useEffect(() => {
         client.get('/StockTake?limit=1000')
             .then((response) => {
@@ -37,11 +47,19 @@ const Products = () => {
             });
     }, []);
 
-    const [page, setPage] = React.useState(1);
-    const cardPerPage = 16
+    useEffect(() => {
+
+        if (!searchParams.get("page")) {
+            //Reset page number when entering this page without page URL parameter
+            navigate("/products?page=1");
+            window.location.reload();
+        }
+
+    }, [searchParams])
 
     const handleChangePage = (event, newPage) => {
         setPage(newPage);
+        setSearchParams({ page: newPage });
     };
 
     const DataForEachPage = data.slice(
@@ -70,12 +88,9 @@ const Products = () => {
                     to={"/products"} // go to products page
                     sx={{
                         color: "black",
-                        textDecoration: "none",
                         alignItems: "center",
                         cursor: 'pointer',
-                        "&:hover": {
-                            textDecoration: "underline",
-                        }, // hover
+                        fontWeight: 'bold'
                     }}
                 >
                     ALL
@@ -136,7 +151,7 @@ const Products = () => {
                     < Grid container spacing={3} margin={2} >
                         {
                             DataForEachPage.map((d) => (
-                                <Grid  size={{ xs: 6, md: 3 }} key={d.ItemId} sx={{ display: 'flex' }} >
+                                <Grid size={{ xs: 6, md: 3 }} key={d.ItemId} sx={{ display: 'flex' }} >
                                     <Card sx={{ flex: 1 }}>
                                         <CardActionArea component={Link} to={'/products/' + d.ItemId}>
                                             <CardMedia

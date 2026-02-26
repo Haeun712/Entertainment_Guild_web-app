@@ -1,3 +1,6 @@
+// src/components/Footer.js
+// Footer component displaying company information
+
 const Footer = () => {
   return (
     <div style={{padding: '10px', backgroundColor: '#282120', marginTop: '20px', color: 'white', fontSize: '10px' }}>

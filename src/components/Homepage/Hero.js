@@ -1,3 +1,6 @@
+// src/components/Homepage/Hero.js
+// Component to display the hero section on the homepage
+
 import HeroImg from '../../assets/Hero_image.png';
 
 const Hero = () => {

@@ -1,5 +1,5 @@
-// src/components/Admins/HomepageAdmin.js
-// Component to display the admin homepage with quick links to manage customers, staff, and products
+// src/components/Employees/HomepageEmpl.js
+// Component to display the employee homepage with quick links to view patrons/customers and products
 
 import HeroImg from '../../assets/Hero_image.png'
 import { Box, Typography, Grid } from '@mui/material';
@@ -14,15 +14,12 @@ import CreateUser from '../../assets/createUser.svg'
 import CreateItem from '../../assets/createItem.svg'
 import Footer from '../Footer';
 
-const HomepageAdmin = () => {
+const HomepageEmpl = () => {
   const quickLink = [
     /* create pages (Create Product) for adding new user/product (in progress)*/
     /* Currently linking to view pages */
-    { label: 'View Customers', to: '/admin/patrons', img: ViewPatron },
-    { label: 'View Staff', to: '/admin/staffs', img: ViewUser },
-    { label: 'Add Staff', to: '/admin/staffs/create', img: CreateUser },
-    { label: 'View Products', to: '/admin/products', img: ViewItem },
-    { label: 'Create Product', to: '/admin/products/create', img: CreateItem },
+    { label: 'View Customers', to: '/empl/patrons', img: ViewPatron },
+    { label: 'View Products', to: '/empl/products', img: ViewItem },
   ]
 
   return (
@@ -73,4 +70,4 @@ const HomepageAdmin = () => {
   );
 }
 
-export default HomepageAdmin;
+export default HomepageEmpl;

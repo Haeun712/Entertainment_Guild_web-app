@@ -1,3 +1,5 @@
+// src/components/Products/Books.js
+// Component to display a list of books with pagination from the Stocktake database
 
 import axios from "axios";
 import { useState, useEffect } from "react";
@@ -12,10 +14,9 @@ import CardMedia from '@mui/material/CardMedia';
 import Pagination from "@mui/material/Pagination";
 import Grid from '@mui/material/Grid';
 import ItemImg from '../../assets/itemImg.svg'
-import {
-    BrowserRouter as Router,
-    Routes, Route, Link
+import { Link, useNavigate
 } from 'react-router-dom';
+import { useSearchParams } from "react-router-dom";
 
 const Books = () => {
 
@@ -26,30 +27,51 @@ const Books = () => {
             'Accept': 'application/json'
         }
     });
+    // Initialize pagination state from the URL query parameter (?page=)
+    const [searchParams, setSearchParams] = useSearchParams();
+    const initialPage = parseInt(searchParams.get("page") || "1", 10);
+    const [page, setPage] = React.useState(initialPage);
+    const cardPerPage = 16
+    const navigate = useNavigate();
 
     useEffect(() => {
-        client.get('/StockTake?where=[(ProductId,lt,200)]&limit=1000')
+        client.get('/StockTake?limit=1000')
             .then((response) => {
 
-                const books = response.data.list;
-                console.log(books);
-                setData(books);
+                const items = response.data.list;
+
+                client.get('/Genre?where=(GenreID,eq,1)&nested[Product List][limit]=200')
+                    .then((response) => {
+                        const productList = response.data.list[0]['Product List'];
+                        const productIds = productList.map(p => p.ID);
+
+                        const books = items.filter(item => productIds.includes(item.ProductId));
+
+                        console.log(books);
+                        setData(books);
+                    })
             });
     }, []);
-    const [page, setPage] = React.useState(1);
-    const cardPerPage = 16
+
+    useEffect(() => {
+    
+            if (!searchParams.get("page")) {
+                //Reset page number when entering this page without page URL parameter
+                navigate("/products/books?page=1");
+                window.location.reload();
+            }
+    
+        }, [searchParams])
 
     const handleChangePage = (event, newPage) => {
         setPage(newPage);
+        setSearchParams({ page: newPage });
     };
 
     const DataForEachPage = data.slice(
         (page - 1) * cardPerPage,
         page * cardPerPage
     )
-
-
-
 
     return (
         <div style={{
@@ -87,13 +109,10 @@ const Books = () => {
                     component={Link}
                     to={"/products/books"} // go to books page
                     sx={{
+                        fontWeight: 'bold',
                         color: "black",
-                        textDecoration: "none",
                         alignItems: "center",
                         cursor: 'pointer',
-                        "&:hover": {
-                            textDecoration: "underline",
-                        }, // hover
                     }}
                 >
                     BOOKS
@@ -130,7 +149,7 @@ const Books = () => {
                 >
                     GAMES
                 </Typography>
-            </div> 
+            </div>
 
             <Stack direction="row" spacing={2}>
                 <Box margin={10} width={'70vw'} maxWidth={800}>
@@ -157,7 +176,7 @@ const Books = () => {
                                                 {d.Source.SourceName}
                                             </Typography>
                                             <Typography gutterBottom variant="p" component="div"
-                                             sx={{fontWeight: "bold", paddingTop: '10px', fontSize: "15px"}}>
+                                                sx={{ fontWeight: "bold", paddingTop: '10px', fontSize: "15px" }}>
                                                 ${d.Price}
                                             </Typography>
                                         </CardContent>

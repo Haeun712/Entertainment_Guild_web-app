@@ -1,3 +1,6 @@
+// src/components/Homepage/Promotion.js
+// Component to display the promotion section on the homepage
+
 import PromotionImg from '../../assets/Promotion_image.jpg';
 import Button from '@mui/material/Button';
 

@@ -1,3 +1,7 @@
+// src/components/Search/SearchResult.js
+// Search result component that displays products matching the search query with pagination
+// references: https://blogs.purecode.ai/blogs/mui-search-bar, https://nextjs.org/docs/app/api-reference/functions/use-search-params
+
 import { Stack } from "@mui/system";
 import { Paper, Box, Typography } from "@mui/material";
 import Card from '@mui/material/Card';
@@ -8,7 +12,7 @@ import Grid from '@mui/material/Grid';
 import ItemImg from '../../assets/itemImg.svg'
 import React from "react";
 import Pagination from "@mui/material/Pagination";
-import { Link, useSearchParams, useLocation } from 'react-router-dom';
+import { Link, useSearchParams, useNavigate } from 'react-router-dom';
 import axios from "axios";
 import { useState } from "react";
 import { useEffect } from "react";
@@ -16,7 +20,6 @@ import { useEffect } from "react";
 
 
 const SearchResult = () => {
-    const location = useLocation();
     const [searchParams] = useSearchParams();
     const searchString = searchParams.get('query') || "";
     const [filteredList, setFilteredList] = useState([]);
@@ -35,17 +38,33 @@ const SearchResult = () => {
             .then((response) => {
                 console.log(response.data.list);
                 setItems(response.data.list);
+
+                setFilteredList(items);
             });
 
-            setFilteredList(items);
     }, [])
 
-    const [page, setPage] = React.useState(1);
+    // Initialize pagination state from the URL query parameter (?page=)
+    const [pageParams, setPageParams] = useSearchParams();
+    const initialPage = parseInt(searchParams.get("page") || "1", 10);
+    const [page, setPage] = React.useState(initialPage);
     const cardPerPage = 16
+    const navigate = useNavigate();
 
     const handleChangePage = (event, newPage) => {
         setPage(newPage);
+        setPageParams({ page: newPage, query: searchString });
     };
+
+    useEffect(() => {
+
+        if (!pageParams.get("page")) {
+            //Reset page number when entering this page without page URL parameter
+            navigate("/search?page=1");
+            window.location.reload();
+        }
+
+    }, [pageParams])
 
     // Create a new array, filteredList, using the array filter function to filter the dummy data based on input.
     useEffect(() => {
@@ -58,6 +77,7 @@ const SearchResult = () => {
         });
 
         setFilteredList(list);
+        setPage(parseInt(searchParams.get("page") || "1", 10));
     }, [items, searchString]);
 
     const DataForEachPage = filteredList.slice(

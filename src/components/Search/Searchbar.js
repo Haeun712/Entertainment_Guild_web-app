@@ -1,3 +1,7 @@
+// src/components/Search/Searchbar.js
+// Search bar component for users to input search queries
+// reference: https://blogs.purecode.ai/blogs/mui-search-bar
+
 import Paper from '@mui/material/Paper';
 import InputBase from '@mui/material/InputBase';
 import IconButton from '@mui/material/IconButton';
@@ -19,7 +23,7 @@ const Searchbar = () => {
     }
 
     const Search = () => {
-        navigate("?query=" + input);
+        navigate("?page=1&query=" + input);
     }
 
 

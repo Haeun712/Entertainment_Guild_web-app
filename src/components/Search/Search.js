@@ -1,3 +1,5 @@
+// src/components/Search/Search.js
+// Search component that includes search bar and displays search results
 
 import Box from '@mui/material/Box';
 import SearchResult from "./SearchResult"
