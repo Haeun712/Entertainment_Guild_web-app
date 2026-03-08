@@ -1,70 +1,97 @@
-# Getting Started with Create React App
+# Entertainment Guild Web Application
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+## Overview
 
-## Available Scripts
+The **Entertainment Guild Web Application** is a role-based prototype online store management system developed using **ReactJS** and a provided database. The system enables different types of users to interact with the platform through distinct workflows and access control.
 
-In the project directory, you can run:
+Customers can browse and search for items, manage their accounts, and track orders. Employees can view inventory information, while administrators manage products and users through a dedicated interface.
 
-### `npm start`
+This project demonstrates the implementation of a **role-based web application architecture**, API integration, and user account management in a modern React environment.
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+---
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+## Features
 
-### `npm test`
+* **Role-based access control** for Customers, Employees, and Administrators
+* Customers can:
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+  * Create accounts and log in
+  * Forgot password / Password reset
+  * Search items in the store
+  * Track order history
+  * Update their profile information
+* Employees can:
 
-### `npm run build`
+  * View inventory items & accounts
+* Administrators can:
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+  * Add, edit, and delete products
+  * Manage user accounts
+  * Create other admins
+* **Password reset functionality** via EmailJS that sends a link to the password reset page when users request "Forgot Password".
+* **Search functionality** for browsing store items
+* **RESTful API integration** with the provided database
+* **Docker container** used to run the provided database environment
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+---
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+## User Roles
 
-### `npm run eject`
+### Customer
 
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
+Customers interact with the store to browse and purchase items. They can create accounts, search for products, track their orders, and update their profile details.
 
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+### Employee
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
+Employees have read-only access to the system and can view inventory items and accounts in the store.
 
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
+### Administrator
 
-## Learn More
+Administrators manage the system. They can add, edit, and delete products, manage user accounts, and maintain the store’s data.
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+---
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+## Technologies Used
 
-### Code Splitting
+* **ReactJS**
+* **JavaScript**
+* **RESTful APIs**
+* **Docker** (database container)
+* **Postman** (API testing)
+* **EmailJS** (password reset email service)
+* **Figma** (UI wireframes and design)
+* **Visual Studio Code**
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
+---
 
-### Analyzing the Bundle Size
+## System Architecture
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
+The application follows a **client–server architecture**:
 
-### Making a Progressive Web App
+* **Frontend:** React-based user interface
+* **API Layer:** RESTful endpoints used for data communication
+* **Database:** Provided database running inside a Docker container
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
+The frontend communicates with the backend through API requests to retrieve and update store data.
 
-### Advanced Configuration
+---
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
+## Screenshots
 
-### Deployment
+*(Add screenshots of the application here)*
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
+Examples:
 
-### `npm run build` fails to minify
+* Login page
+* Admin dashboard
+* Item search page
+* User profile page
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+---
+
+## Limitation
+
+* POST request to ProductsInOrders table: When creating an order, the request consistently returned "Cannot read property 'column_name' of undefined", despite verifying field names, data types, and foreign key relationships using Postman and developer tools.
+
+  * This experience highlighted the importance of strict alignment between API requests and database schema when working with backend systems.
+* Payment simulation only: The system does not process real payments; all payment handling is simulated to test approved, timed-out, and declined scenarios.
