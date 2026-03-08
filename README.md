@@ -10,6 +10,16 @@ This project demonstrates the implementation of a **role-based web application a
 
 ---
 
+## User Roles
+
+**Customer:** interact with the store to browse and purchase items. They can create accounts, search for products, track their orders, and update their profile details.
+
+**Employee:** have read-only access to the system and can view inventory items and accounts in the store.
+
+**Administrator:** manage the system. They can add, edit, and delete products, manage user accounts, and maintain the store’s data.
+
+---
+
 ## Features
 
 * **Role-based access control** for Customers, Employees, and Administrators
@@ -32,22 +42,6 @@ This project demonstrates the implementation of a **role-based web application a
 * **Search functionality** for browsing store items
 * **RESTful API integration** with the provided database
 * **Docker container** used to run the provided database environment
-
----
-
-## User Roles
-
-### Customer
-
-Customers interact with the store to browse and purchase items. They can create accounts, search for products, track their orders, and update their profile details.
-
-### Employee
-
-Employees have read-only access to the system and can view inventory items and accounts in the store.
-
-### Administrator
-
-Administrators manage the system. They can add, edit, and delete products, manage user accounts, and maintain the store’s data.
 
 ---
 
@@ -76,16 +70,43 @@ The frontend communicates with the backend through API requests to retrieve and 
 
 ---
 
-## Screenshots
+### Key Screens
 
-*(Add screenshots of the application here)*
 
-Examples:
+<table>
+<tr>
+  <td>
+    <img src="Screenshots_EG_project/login.png" alt="Login Page" width="400"/><br>
+    <p style="text-align:center;"><strong>Login Page</strong><br>Users log in to access their account or admin panel</p>
+  </td>
+  <td>
+    <img src="Screenshots_EG_project/customer_profile.png" alt="Customer Profile" width="400"/><br>
+    <p style="text-align:center;"><strong>Customer Profile</strong><br>Customers can view and update their personal information</p>
+  </td>
+</tr>
+<tr>
+  <td>
+    <img src="Screenshots_EG_project/item_search.png" alt="Item Search" width="400"/><br>
+    <p style="text-align:center;"><strong>Item Search</strong><br>Search and browse items available in the store</p>
+  </td>
+  <td>
+    <img src="Screenshots_EG_project/admin_dashboard.png" alt="Admin Dashboard" width="400"/><br>
+    <p style="text-align:center;"><strong>Admin Dashboard</strong><br>Admins manage products, and users (employee & admin)</p>
+  </td>
+</tr>
+<tr>
+  <td>
+    <img src="Screenshots_EG_project/manage_product.png" alt="Manage Product" width="400"/><br>
+    <p style="text-align:center;"><strong>Manage Product</strong><br>Admins can add, edit, and delete products</p>
+  </td>
+  <td></td>
+</tr>
+</table>
 
-* Login page
-* Admin dashboard
-* Item search page
-* User profile page
+> Note: This README focuses on **UI Screens and functionality**. The app requires the database to run, so external users cannot interact with a live demo directly.
+>
+
+
 
 ---
 
